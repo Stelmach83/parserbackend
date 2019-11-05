@@ -30,7 +30,7 @@ public class PersonController {
 	}
 
 	@GetMapping("/users/page")
-	public ResponseEntity<Page<Person>> getUserPage(@RequestParam("page") int page, @RequestParam("size") int size) {
+	public ResponseEntity<Page<Person>> getUserPage(@RequestParam("page") int page, @RequestParam(value = "size", defaultValue = "5") int size) {
 		Pageable pageable = PageRequest.of(page, size);
 		Page<Person> personPage = personService.getPaginatedEntries(pageable);
 		return new ResponseEntity<>(personPage, HttpStatus.OK);
