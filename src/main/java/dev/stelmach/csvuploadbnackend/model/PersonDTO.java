@@ -1,6 +1,7 @@
 package dev.stelmach.csvuploadbnackend.model;
 
 import dev.stelmach.csvuploadbnackend.validation.RequiredAndNotNull;
+import dev.stelmach.csvuploadbnackend.validation.UniquePhoneNumber;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
@@ -21,7 +22,7 @@ public class PersonDTO {
 	@Past(message = "Birthday must be a date in the past.")
 	private Date dateOfBirth;
 	@Pattern(regexp = "^[1-9][0-9]{8}$", message = "Phone number must be 9 digits long, and not start with '0'.")
-	//	@UniquePhoneNumber(message = "An entry with this phone number already exists.")
+	@UniquePhoneNumber(message = "An entry with this phone number already exists.")
 	private String phoneNumber;
 	private List<String> parsingMessages;
 
