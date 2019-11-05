@@ -1,58 +1,38 @@
 package dev.stelmach.csvuploadbnackend.helper;
 
 import com.univocity.parsers.common.record.Record;
+import dev.stelmach.csvuploadbnackend.model.Person;
 import dev.stelmach.csvuploadbnackend.model.PersonDTO;
-import org.springframework.web.multipart.MultipartFile;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.GregorianCalendar;
-import java.util.List;
-import java.util.Objects;
 
+@Component
 public class ParseHelper {
+
+	private static final Logger log = LoggerFactory.getLogger(ParseHelper.class);
 
 	private ParseHelper() {
 	}
 
-	public static PersonDTO convertRecordToPerson(Record record) {
+	public static Person convertPersonDTOtoPerson(PersonDTO personDTO) {
+		Person person = new Person();
+		person.setFirstName(personDTO.getFirstName());
+		person.setLastName(personDTO.getLastName());
+		person.setDateOfBirth(personDTO.getDateOfBirth());
+		person.setPhoneNumber(personDTO.getPhoneNumber());
+		return person;
+	}
+
+	public static PersonDTO convertRecordToPersonDTO(Record record) {
 		String firstName = convertToTitleCase(record.getString("first_name"));
 		String lastName = convertToTitleCase(record.getString("last_name"));
 		Date dateOfBirth = ParseHelper.parseDate(record.getString("birth_date"));
 		String phoneNumber = record.getString("phone_no");
-		List<String> parsingMessages = new ArrayList<>();
-		if (validatePersonRecord(record)) {
-			parsingMessages.add("Ok");
-		} else {
-			parsingMessages.add("Error 1");
-			parsingMessages.add("Error 2");
-		}
-		return new PersonDTO(firstName, lastName, dateOfBirth, phoneNumber, parsingMessages);
-	}
-
-	public static boolean validatePersonRecord(Record record) {
-		String firstName = record.getString("first_name");
-		String lastName = record.getString("last_name");
-		Date dateOfBirth = ParseHelper.parseDate(record.getString("birth_date"));
-		String phoneNumber = record.getString("phone_no");
-		return firstName != null && lastName != null && dateOfBirth != null && phoneNumber != null;
-	}
-
-	public static File convertMultipartFileToFile(MultipartFile file) {
-		File javaFile = new File(Objects.requireNonNull(file.getOriginalFilename()));
-		try {
-			boolean newFile = javaFile.createNewFile();
-			if (newFile) {
-				FileOutputStream fos = new FileOutputStream(javaFile);
-				fos.write(file.getBytes());
-			}
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		return javaFile;
+		return new PersonDTO(firstName, lastName, dateOfBirth, phoneNumber);
 	}
 
 	private static Date parseDate(String dateString) {
@@ -85,15 +65,6 @@ public class ParseHelper {
 			converted.append(ch);
 		}
 		return converted.toString();
-	}
-
-	private static boolean isNumeric(String str) {
-		try {
-			double d = Double.parseDouble(str);
-			return true;
-		} catch (Exception e) {
-		}
-		return false;
 	}
 
 }

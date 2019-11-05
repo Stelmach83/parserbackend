@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.servlet.NoHandlerFoundException;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
+import java.io.IOException;
+
 @EnableWebMvc
 @ControllerAdvice
 public class ExceptionController {
@@ -24,6 +26,16 @@ public class ExceptionController {
 		error.setResult(e.getMessage());
 		log(error);
 		return new ResponseEntity<>(error, HttpStatus.NOT_FOUND);
+	}
+
+	@ExceptionHandler(IOException.class)
+	public ResponseEntity<ApiResponse> handleConstraintViolationExceptionExceptionException(IOException e) {
+		ApiResponse error = new ApiResponse();
+		error.setStatus(400);
+		error.setMessage("IO Exception");
+		error.setResult(e.getMessage());
+		log(error);
+		return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
 	}
 
 	@ExceptionHandler(ArrayIndexOutOfBoundsException.class)
@@ -55,7 +67,6 @@ public class ExceptionController {
 		log(error);
 		return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
 	}
-
 
 	private void log(ApiResponse error) {
 		if (log.isErrorEnabled()) {
