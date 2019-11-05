@@ -2,7 +2,11 @@ package dev.stelmach.csvuploadbnackend.service;
 
 import dev.stelmach.csvuploadbnackend.model.Person;
 import dev.stelmach.csvuploadbnackend.repository.PersonRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class PersonService {
@@ -19,6 +23,14 @@ public class PersonService {
 
 	public boolean isPhoneNumberUnique(String phoneNumber) {
 		return personRepository.countPersonByPhoneNumber(phoneNumber) <= 0;
+	}
+
+	public List<Person> getAllEntriesSortedByBirthday() {
+		return personRepository.findAllByOrderByDateOfBirthDesc();
+	}
+
+	public Page<Person> getPaginatedEntries(Pageable pageable) {
+		return personRepository.findAll(pageable);
 	}
 
 }

@@ -26,7 +26,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @RestController
-@RequestMapping("v1")
+@RequestMapping("${api.version}")
 public class UploadController {
 
 	private final Logger log = LoggerFactory.getLogger(this.getClass());
