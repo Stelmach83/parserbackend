@@ -18,8 +18,23 @@ public class ParseHelper {
 	private ParseHelper() {
 	}
 
+	public static PersonDTO convertPersonToPersonDTO(Person person) {
+		PersonDTO personDTO = new PersonDTO();
+		if (person.getId() != null) {
+			personDTO.setId(person.getId());
+		}
+		personDTO.setFirstName(person.getFirstName());
+		personDTO.setLastName(person.getLastName());
+		personDTO.setDateOfBirth(person.getDateOfBirth());
+		personDTO.setPhoneNumber(person.getPhoneNumber());
+		return personDTO;
+	}
+
 	public static Person convertPersonDTOtoPerson(PersonDTO personDTO) {
 		Person person = new Person();
+		if (personDTO.getId() != null) {
+			person.setId(personDTO.getId());
+		}
 		person.setFirstName(personDTO.getFirstName());
 		person.setLastName(personDTO.getLastName());
 		person.setDateOfBirth(personDTO.getDateOfBirth());

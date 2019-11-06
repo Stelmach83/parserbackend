@@ -8,7 +8,7 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 @Constraint(validatedBy = RequiredAndNotNullValidator.class)
-@Target({ ElementType.METHOD, ElementType.FIELD})
+@Target({ ElementType.METHOD, ElementType.FIELD })
 @Retention(RetentionPolicy.RUNTIME)
 public @interface RequiredAndNotNull {
 
