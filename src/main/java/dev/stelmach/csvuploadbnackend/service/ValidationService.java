@@ -29,9 +29,9 @@ public class ValidationService {
 			for (ConstraintViolation<PersonDTO> violation : violations) {
 				violationMessages.add(violation.getMessage());
 			}
-			if (log.isDebugEnabled()) {
-				String logMsg = "A total of %s errors have been found in entry.";
-				log.debug(logMsg, violationMessages.size());
+			if (log.isInfoEnabled()) {
+				String logMsg = "A total of %d errors have been found in entry.";
+				log.info(String.format(logMsg, violationMessages.size()));
 			}
 		}
 		return violationMessages;

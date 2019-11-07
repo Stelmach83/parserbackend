@@ -23,12 +23,16 @@ public class PersonService {
 
 	public void savePerson(Person person) {
 		personRepository.save(person);
+		if (log.isInfoEnabled()) {
+			String logMsg = "Saved new person: %s";
+			log.info(String.format(logMsg, person.toString()));
+		}
 	}
 
 	public void deletePerson(Long id) {
 		if (log.isDebugEnabled()) {
 			String logMsg = "Attempting to delete Person with 'id' of: %s";
-			log.debug(logMsg, id);
+			log.debug(String.format(logMsg, id));
 		}
 		personRepository.deleteById(id);
 	}
@@ -48,7 +52,7 @@ public class PersonService {
 		List<Person> allByOrderByDateOfBirth = personRepository.findAllByOrderByDateOfBirth();
 		if (log.isDebugEnabled()) {
 			String logMsg = "Found, and returned all entries sorted by birthday. A total of %s entries.";
-			log.debug(logMsg, allByOrderByDateOfBirth.size());
+			log.debug(String.format(logMsg, allByOrderByDateOfBirth.size()));
 		}
 		return allByOrderByDateOfBirth;
 	}
@@ -57,7 +61,7 @@ public class PersonService {
 		Page<Person> personPage = personRepository.findAll(pageable);
 		if (log.isDebugEnabled()) {
 			String logMsg = "Returned a paginated result of entries. Page: %s of %s entries.";
-			log.debug(logMsg, pageable.getPageNumber(), personPage.getContent().size());
+			log.debug(String.format(logMsg, pageable.getPageNumber(), personPage.getContent().size()));
 		}
 		return personRepository.findAll(pageable);
 	}

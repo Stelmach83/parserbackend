@@ -67,7 +67,7 @@ public class UploadController {
 		}
 		if (log.isDebugEnabled()) {
 			String logMsg = "Successfully parsed %s entries. Errors in %s entries.";
-			log.debug(logMsg, validPersonDTOList.size(), invalidPersonDTOList.size());
+			log.debug(String.format(logMsg, validPersonDTOList.size(), invalidPersonDTOList.size()));
 		}
 		return new ResponseEntity<>(new ParsingResponse(validPersonDTOList.size(), invalidPersonDTOList.size(), validPersonDTOList, invalidPersonDTOList), HttpStatus.OK);
 	}

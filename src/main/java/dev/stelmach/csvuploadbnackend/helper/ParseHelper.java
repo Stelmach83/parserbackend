@@ -30,7 +30,7 @@ public class ParseHelper {
 		personDTO.setPhoneNumber(person.getPhoneNumber());
 		if (log.isDebugEnabled()) {
 			String logMsg = "Converted Person to PersonDTO: %s";
-			log.debug(logMsg,  personDTO.toString());
+			log.debug(String.format(logMsg,  personDTO.toString()));
 		}
 		return personDTO;
 	}
@@ -46,7 +46,7 @@ public class ParseHelper {
 		person.setPhoneNumber(personDTO.getPhoneNumber());
 		if (log.isDebugEnabled()) {
 			String logMsg = "Converted PersonDTO to Person: %s";
-			log.debug(logMsg,  person.toString());
+			log.debug(String.format(logMsg,  person.toString()));
 		}
 		return person;
 	}
@@ -70,7 +70,7 @@ public class ParseHelper {
 		PersonDTO personDTO = new PersonDTO(firstName, lastName, dateOfBirth, phoneNumberColumn);
 		if (log.isDebugEnabled()) {
 			String logMsg = "Converted Record to PersonDTO: %s";
-			log.debug(logMsg, personDTO.toString());
+			log.debug(String.format(logMsg, personDTO.toString()));
 		}
 		return personDTO;
 	}
