@@ -13,6 +13,6 @@ public interface PersonRepository extends JpaRepository<Person, Long> {
 
 	long countPersonByPhoneNumber(String phoneNumber);
 	List<Person> findAllByOrderByDateOfBirth();
-	Page<Person> findAllByLastNameContaining(Pageable pageable, String lastName);
+	Page<Person> findAllByLastNameIgnoreCaseContaining(Pageable pageable, String lastName);
 
 }

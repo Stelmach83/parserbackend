@@ -67,7 +67,7 @@ public class PersonService {
 	}
 
 	public Page<Person> getPaginatedEntriesByLastName(Pageable pageable, String lastName) {
-		Page<Person> personPage = personRepository.findAllByLastNameContaining(pageable, lastName);
+		Page<Person> personPage = personRepository.findAllByLastNameIgnoreCaseContaining(pageable, lastName);
 		if (log.isDebugEnabled()) {
 			String logMsg = "Returned a paginated result of entries. Page: %s of %s entries. That contain %s in last name.";
 			log.debug(String.format(logMsg, pageable.getPageNumber(), personPage.getContent().size()), lastName);

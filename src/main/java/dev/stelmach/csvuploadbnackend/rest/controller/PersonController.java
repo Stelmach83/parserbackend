@@ -35,21 +35,24 @@ public class PersonController {
 	}
 
 	@GetMapping("/users/page")
-	public ResponseEntity<Page<Person>> getUserPage(@RequestParam("page") int page, @RequestParam(value = "size", defaultValue = "5") int size) {
+	public ResponseEntity<Page<Person>> getUserPage(@RequestParam("page") int page,
+			@RequestParam(value = "size", defaultValue = "5") int size) {
 		Pageable pageable = PageRequest.of(page, size, Sort.by(DOB));
 		Page<Person> personPage = personService.getPaginatedEntries(pageable);
 		return new ResponseEntity<>(personPage, HttpStatus.OK);
 	}
 
 	@GetMapping("/users/page/lastName")
-	public ResponseEntity<Page<Person>> getUserPageByLastName(@RequestParam(value = "page", defaultValue = "0") int page, @RequestParam(value = "size", defaultValue = "5") int size, @RequestParam String lastName) {
+	public ResponseEntity<Page<Person>> getUserPageByLastName(@RequestParam(value = "page", defaultValue = "0") int page,
+			@RequestParam(value = "size", defaultValue = "5") int size, @RequestParam String lastName) {
 		Pageable pageable = PageRequest.of(page, size, Sort.by(DOB));
 		Page<Person> personPage = personService.getPaginatedEntriesByLastName(pageable, lastName);
 		return new ResponseEntity<>(personPage, HttpStatus.OK);
 	}
 
 	@DeleteMapping("/users/delete")
-	public ResponseEntity<Page<Person>> deleteUser(@RequestParam("page") int page, @RequestParam Long id, @RequestParam(value = "size", defaultValue = "5") int size) {
+	public ResponseEntity<Page<Person>> deleteUser(@RequestParam("page") int page, @RequestParam Long id,
+			@RequestParam(value = "size", defaultValue = "5") int size) {
 		Pageable pageable = PageRequest.of(page, size, Sort.by(DOB));
 		Page<Person> personPage = personService.getPaginatedEntries(pageable);
 		personService.deletePerson(id);
@@ -63,7 +66,8 @@ public class PersonController {
 	}
 
 	@DeleteMapping("/users/deleteAll")
-	public ResponseEntity<Page<Person>> deleteAllUsers(@RequestParam(value = "page", defaultValue = "0") int page, @RequestParam(value = "size", defaultValue = "5") int size) {
+	public ResponseEntity<Page<Person>> deleteAllUsers(@RequestParam(value = "page", defaultValue = "0") int page,
+			@RequestParam(value = "size", defaultValue = "5") int size) {
 		personService.deleteAllPersons();
 		Pageable pageable = PageRequest.of(page, size);
 		Page<Person> personPage = personService.getPaginatedEntries(pageable);
