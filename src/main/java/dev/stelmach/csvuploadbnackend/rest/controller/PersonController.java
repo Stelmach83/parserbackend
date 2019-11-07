@@ -41,6 +41,13 @@ public class PersonController {
 		return new ResponseEntity<>(personPage, HttpStatus.OK);
 	}
 
+	@GetMapping("/users/page/lastName")
+	public ResponseEntity<Page<Person>> getUserPageByLastName(@RequestParam(value = "page", defaultValue = "0") int page, @RequestParam(value = "size", defaultValue = "5") int size, @RequestParam String lastName) {
+		Pageable pageable = PageRequest.of(page, size, Sort.by(DOB));
+		Page<Person> personPage = personService.getPaginatedEntriesByLastName(pageable, lastName);
+		return new ResponseEntity<>(personPage, HttpStatus.OK);
+	}
+
 	@DeleteMapping("/users/delete")
 	public ResponseEntity<Page<Person>> deleteUser(@RequestParam("page") int page, @RequestParam Long id, @RequestParam(value = "size", defaultValue = "5") int size) {
 		Pageable pageable = PageRequest.of(page, size, Sort.by(DOB));
