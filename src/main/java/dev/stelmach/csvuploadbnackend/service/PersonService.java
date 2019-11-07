@@ -21,6 +21,10 @@ public class PersonService {
 		personRepository.save(person);
 	}
 
+	public void deletePerson(Long id) {
+		personRepository.deleteById(id);
+	}
+
 	public boolean isPhoneNumberUnique(String phoneNumber) {
 		return personRepository.countPersonByPhoneNumber(phoneNumber) <= 0;
 	}
