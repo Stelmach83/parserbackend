@@ -40,7 +40,19 @@ public class PersonController {
 	@DeleteMapping("/users/delete")
 	public ResponseEntity<Page<Person>> deleteUser(@RequestParam("page") int page, @RequestParam Long id, @RequestParam(value = "size", defaultValue = "5") int size) {
 		Pageable pageable = PageRequest.of(page, size);
+		Page<Person> personPage = personService.getPaginatedEntries(pageable);
 		personService.deletePerson(id);
+		if (personPage.getTotalElements() % size == 1 && page == personPage.getTotalPages() - 1) {
+			pageable = PageRequest.of(page - 1, size);
+		}
+		personPage = personService.getPaginatedEntries(pageable);
+		return new ResponseEntity<>(personPage, HttpStatus.OK);
+	}
+
+	@DeleteMapping("/users/deleteAll")
+	public ResponseEntity<Page<Person>> deleteAllUsers(@RequestParam(value = "page", defaultValue = "0") int page, @RequestParam(value = "size", defaultValue = "5") int size) {
+		personService.deleteAllPersons();
+		Pageable pageable = PageRequest.of(page, size);
 		Page<Person> personPage = personService.getPaginatedEntries(pageable);
 		return new ResponseEntity<>(personPage, HttpStatus.OK);
 	}
