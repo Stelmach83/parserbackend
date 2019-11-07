@@ -49,7 +49,7 @@ public class PersonController {
 		// Below is the support for correctly returning the number of pages if after the deletion of an entry the page count changes.
 		// Two queries are required for this.
 		if (personPage.getTotalElements() % size == 1 && page == personPage.getTotalPages() - 1) {
-			pageable = PageRequest.of(page, size, Sort.by(DOB));
+			pageable = PageRequest.of(page - 1, size, Sort.by(DOB));
 		}
 		personPage = personService.getPaginatedEntries(pageable);
 		return new ResponseEntity<>(personPage, HttpStatus.OK);
