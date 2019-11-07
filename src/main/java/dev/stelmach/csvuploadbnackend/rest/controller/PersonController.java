@@ -25,7 +25,7 @@ public class PersonController {
 	}
 
 	@GetMapping("/users")
-	public ResponseEntity<List<Person>> getAll() {
+	public ResponseEntity<List<Person>> getAllUsers() {
 		return new ResponseEntity<>(personService.getAllEntriesSortedByBirthday(), HttpStatus.OK);
 	}
 

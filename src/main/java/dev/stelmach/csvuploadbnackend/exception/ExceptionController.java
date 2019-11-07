@@ -42,7 +42,7 @@ public class ExceptionController {
 	public ResponseEntity<ApiResponse> handleArrayIndexOutOfBoundsExceptionException(ArrayIndexOutOfBoundsException e) {
 		ApiResponse error = new ApiResponse();
 		error.setStatus(400);
-		error.setMessage("CSV Error");
+		error.setMessage("Invalid entry exception.");
 		error.setResult(e.getMessage());
 		log(error);
 		return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
