@@ -10,6 +10,6 @@ import java.util.List;
 public interface PersonRepository extends JpaRepository<Person, Long> {
 
 	long countPersonByPhoneNumber(String phoneNumber);
-	List<Person> findAllByOrderByDateOfBirthDesc();
+	List<Person> findAllByOrderByDateOfBirth();
 
 }

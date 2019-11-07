@@ -1,6 +1,8 @@
 package dev.stelmach.csvuploadbnackend.service;
 
 import dev.stelmach.csvuploadbnackend.model.PersonDTO;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import javax.validation.ConstraintViolation;
@@ -11,6 +13,8 @@ import java.util.Set;
 
 @Component
 public class ValidationService {
+
+	private final Logger log = LoggerFactory.getLogger(this.getClass());
 
 	private Validator validator;
 
@@ -24,6 +28,10 @@ public class ValidationService {
 		if (!violations.isEmpty()) {
 			for (ConstraintViolation<PersonDTO> violation : violations) {
 				violationMessages.add(violation.getMessage());
+			}
+			if (log.isDebugEnabled()) {
+				String logMsg = "A total of %s errors have been found in entry.";
+				log.debug(logMsg, violationMessages.size());
 			}
 		}
 		return violationMessages;

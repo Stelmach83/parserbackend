@@ -50,6 +50,7 @@ public class UploadController {
 		settings.setEmptyValue("empty");
 		CsvParser parser = new CsvParser(settings);
 		List<Record> records = parser.parseAllRecords(inputStream);
+		// Start iteration from second element to ignore column definitions
 		for (int i = 1; i < records.size(); i++) {
 			Record record = records.get(i);
 			PersonDTO personDTO = ParseHelper.convertRecordToPersonDTO(record);
@@ -63,6 +64,10 @@ public class UploadController {
 			} else {
 				invalidPersonDTOList.add(personDTO);
 			}
+		}
+		if (log.isDebugEnabled()) {
+			String logMsg = "Successfully parsed %s entries. Errors in %s entries.";
+			log.debug(logMsg, validPersonDTOList.size(), invalidPersonDTOList.size());
 		}
 		return new ResponseEntity<>(new ParsingResponse(validPersonDTOList.size(), invalidPersonDTOList.size(), validPersonDTOList, invalidPersonDTOList), HttpStatus.OK);
 	}

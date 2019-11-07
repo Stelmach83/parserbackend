@@ -6,7 +6,4 @@ public class InvalidEntryException extends RuntimeException {
 		super(message);
 	}
 
-	public InvalidEntryException(String message, Throwable cause) {
-		super(message, cause);
-	}
 }

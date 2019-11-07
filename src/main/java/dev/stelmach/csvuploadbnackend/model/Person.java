@@ -22,19 +22,6 @@ public class Person {
 	public Person() {
 	}
 
-	public Person(String firstName, String lastName, Date dateOfBirth, String phoneNumber) {
-		this.firstName = firstName;
-		this.lastName = lastName;
-		this.dateOfBirth = dateOfBirth;
-		this.phoneNumber = phoneNumber;
-	}
-
-	public interface Existing {
-	}
-
-	public interface New {
-	}
-
 	public Long getId() {
 		return id;
 	}

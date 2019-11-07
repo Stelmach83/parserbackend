@@ -18,6 +18,8 @@ public class ExceptionController {
 
 	private final Logger log = LoggerFactory.getLogger(this.getClass());
 
+	private static final String INVALID_ENTRY = "Invalid entry exception.";
+
 	@ExceptionHandler(NoHandlerFoundException.class)
 	public ResponseEntity<ApiResponse> handle404Exception(NoHandlerFoundException e) {
 		ApiResponse error = new ApiResponse();
@@ -42,7 +44,7 @@ public class ExceptionController {
 	public ResponseEntity<ApiResponse> handleArrayIndexOutOfBoundsExceptionException(ArrayIndexOutOfBoundsException e) {
 		ApiResponse error = new ApiResponse();
 		error.setStatus(400);
-		error.setMessage("Invalid entry exception.");
+		error.setMessage(INVALID_ENTRY);
 		error.setResult(e.getMessage());
 		log(error);
 		return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
@@ -52,7 +54,7 @@ public class ExceptionController {
 	public ResponseEntity<ApiResponse> handleDateFormatException(InvalidEntryException e) {
 		ApiResponse error = new ApiResponse();
 		error.setStatus(400);
-		error.setMessage("Invalid entry exception.");
+		error.setMessage(e.getMessage());
 		error.setResult(e.getMessage());
 		log(error);
 		return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
@@ -62,7 +64,7 @@ public class ExceptionController {
 	public ResponseEntity<ApiResponse> handleIllegalArgumentExceptionException(IllegalArgumentException e) {
 		ApiResponse error = new ApiResponse();
 		error.setStatus(400);
-		error.setMessage("Invalid entry exception.");
+		error.setMessage(INVALID_ENTRY);
 		error.setResult(e.getMessage());
 		log(error);
 		return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
@@ -70,8 +72,8 @@ public class ExceptionController {
 
 	private void log(ApiResponse error) {
 		if (log.isErrorEnabled()) {
-			String code = "Error code: %s - %s";
-			log.error(String.format(code, error.getStatus(), error.getResult()));
+			String errorMsg = "Error code: %s - %s";
+			log.error(String.format(errorMsg, error.getStatus(), error.getResult()));
 		}
 	}
 }

@@ -1,6 +1,7 @@
 package dev.stelmach.csvuploadbnackend.helper;
 
 import com.univocity.parsers.common.record.Record;
+import dev.stelmach.csvuploadbnackend.exception.InvalidEntryException;
 import dev.stelmach.csvuploadbnackend.model.Person;
 import dev.stelmach.csvuploadbnackend.model.PersonDTO;
 import org.slf4j.Logger;
@@ -27,6 +28,10 @@ public class ParseHelper {
 		personDTO.setLastName(person.getLastName());
 		personDTO.setDateOfBirth(person.getDateOfBirth());
 		personDTO.setPhoneNumber(person.getPhoneNumber());
+		if (log.isDebugEnabled()) {
+			String logMsg = "Converted Person to PersonDTO: %s";
+			log.debug(logMsg,  personDTO.toString());
+		}
 		return personDTO;
 	}
 
@@ -39,15 +44,35 @@ public class ParseHelper {
 		person.setLastName(personDTO.getLastName());
 		person.setDateOfBirth(personDTO.getDateOfBirth());
 		person.setPhoneNumber(personDTO.getPhoneNumber());
+		if (log.isDebugEnabled()) {
+			String logMsg = "Converted PersonDTO to Person: %s";
+			log.debug(logMsg,  person.toString());
+		}
 		return person;
 	}
 
 	public static PersonDTO convertRecordToPersonDTO(Record record) {
-		String firstName = convertToTitleCase(record.getString("first_name"));
-		String lastName = convertToTitleCase(record.getString("last_name"));
-		Date dateOfBirth = ParseHelper.parseDate(record.getString("birth_date"));
-		String phoneNumber = record.getString("phone_no");
-		return new PersonDTO(firstName, lastName, dateOfBirth, phoneNumber);
+		String firstNameColumn;
+		String lastNameColumn;
+		String birthDateColumn;
+		String phoneNumberColumn;
+		try {
+			firstNameColumn = record.getString("first_name");
+			lastNameColumn = record.getString("last_name");
+			birthDateColumn = record.getString("birth_date");
+			phoneNumberColumn = record.getString("phone_no");
+		} catch (Exception e) {
+			throw new InvalidEntryException("Invalid CSV format. Required columns are: first_name;last_name;birth_date;phone_no");
+		}
+		String firstName = convertToTitleCase(firstNameColumn);
+		String lastName = convertToTitleCase(lastNameColumn);
+		Date dateOfBirth = ParseHelper.parseDate(birthDateColumn);
+		PersonDTO personDTO = new PersonDTO(firstName, lastName, dateOfBirth, phoneNumberColumn);
+		if (log.isDebugEnabled()) {
+			String logMsg = "Converted Record to PersonDTO: %s";
+			log.debug(logMsg, personDTO.toString());
+		}
+		return personDTO;
 	}
 
 	private static Date parseDate(String dateString) {
@@ -63,7 +88,7 @@ public class ParseHelper {
 	}
 
 	private static String convertToTitleCase(String text) {
-		if (text == null || text.isEmpty() || text.equals("null")) {
+		if (text == null || text.isEmpty() || text.equals("null") || text.equals("empty")) {
 			return text;
 		}
 		StringBuilder converted = new StringBuilder();
