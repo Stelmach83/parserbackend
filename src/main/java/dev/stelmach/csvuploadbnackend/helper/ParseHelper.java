@@ -81,10 +81,18 @@ public class ParseHelper {
 			int year = Integer.parseInt(dateElements[0]);
 			int month = Integer.parseInt(dateElements[1]) - 1;
 			if (month < 0 || month > 11) {
+				if (log.isDebugEnabled()) {
+					String logMsg = "Incorrect month entry in parsed date: %s";
+					log.debug(String.format(logMsg, month));
+				}
 				return null;
 			}
 			int day = Integer.parseInt(dateElements[2]);
 			if (day < 1 || day > 31) {
+				if (log.isDebugEnabled()) {
+					String logMsg = "Incorrect day entry in parsed date: %s";
+					log.debug(String.format(logMsg, day));
+				}
 				return null;
 			}
 			return new GregorianCalendar(year, month, day).getTime();
