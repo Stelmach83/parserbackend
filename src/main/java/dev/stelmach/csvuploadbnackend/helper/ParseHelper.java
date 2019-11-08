@@ -8,7 +8,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
-import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 
@@ -80,9 +79,6 @@ public class ParseHelper {
 		String[] dateElements = dateString.split("\\.");
 		if (dateElements.length == 3) {
 			int year = Integer.parseInt(dateElements[0]);
-			if (year < 1900 || year > Calendar.getInstance().get(Calendar.YEAR)) {
-				return null;
-			}
 			int month = Integer.parseInt(dateElements[1]) - 1;
 			if (month < 0 || month > 11) {
 				return null;
