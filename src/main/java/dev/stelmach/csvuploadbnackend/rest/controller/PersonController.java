@@ -10,6 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -34,17 +35,17 @@ public class PersonController {
 		return new ResponseEntity<>(allEntriesSortedByBirthday, HttpStatus.OK);
 	}
 
-	@GetMapping("/users/page")
-	public ResponseEntity<Page<Person>> getUserPage(@RequestParam("page") int page,
+	@GetMapping("/users/{page}")
+	public ResponseEntity<Page<Person>> getUserPage(@PathVariable int page,
 			@RequestParam(value = "size", defaultValue = "5") int size) {
 		Pageable pageable = PageRequest.of(page, size, Sort.by(DOB));
 		Page<Person> personPage = personService.getPaginatedEntries(pageable);
 		return new ResponseEntity<>(personPage, HttpStatus.OK);
 	}
 
-	@GetMapping("/users/page/lastName")
-	public ResponseEntity<Page<Person>> getUserPageByLastName(@RequestParam(value = "page", defaultValue = "0") int page,
-			@RequestParam(value = "size", defaultValue = "5") int size, @RequestParam String lastName) {
+	@GetMapping("/users/{page}/{lastName}")
+	public ResponseEntity<Page<Person>> getUserPageByLastName(@PathVariable int page,
+			@RequestParam(value = "size", defaultValue = "5") int size, @PathVariable String lastName) {
 		Pageable pageable = PageRequest.of(page, size, Sort.by(DOB));
 		Page<Person> personPage = personService.getPaginatedEntriesByLastName(pageable, lastName);
 		return new ResponseEntity<>(personPage, HttpStatus.OK);
